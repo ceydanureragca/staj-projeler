@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Yapılacaklar Listesi</h1>
+        <div class="input-container">
+            <input type="text" id="taskInput" placeholder="Yeni görev ekle...">
+            <button onclick="addTask()">Ekle</button>
+        </div>
+        <ul id="taskList">
+            <!-- Görevler buraya eklenecek -->
+        </ul>
+    </div>
+    <script>
+        // Görevleri depolamak için bir dizi oluşturun
+        let tasks = [];
+
+        // HTML elementlerini seçin
+        const taskInput = document.getElementById('taskInput');
+        const taskList = document.getElementById('taskList');
+
+        // Görev eklemek için bir fonksiyon
+        function addTask() {
+            const taskText = taskInput.value;
+            if (taskText.trim() !== '') {
+                tasks.push(taskText);
+                updateTaskList();
+                taskInput.value = '';
+            }
+        }
+
+        // Görev listesini güncellemek için bir fonksiyon
+        function updateTaskList() {
+            taskList.innerHTML = '';
+            tasks.forEach((task, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span>${task}</span>
+                    <button onclick="removeTask(${index})">Sil</button>
+                `;
+                taskList.appendChild(li);
+            });
+        }
+
+        // Görevi silmek için bir fonksiyon
+        function removeTask(index) {
+            tasks.splice(index, 1);
+            updateTaskList();
+        }
+
+        // Sayfa yüklendiğinde görev listesini güncelleyin
+        window.onload = updateTaskList;
+    </script>
+</body>
+</html>
